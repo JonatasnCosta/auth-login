@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Put } 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PartialUserDto } from './dto/partial-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -30,7 +31,7 @@ export class UserController {
 
   @Patch(':id')
   async partial(@Param('id', ParseIntPipe) id: number, 
-  @Body() data: UpdateUserDto) {
+  @Body() data: PartialUserDto) {
     return this.userService.partial(id, data);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PartialUserDto } from './dto/partial-user.dto';
 
 @Injectable()
 export class UserService {
@@ -21,9 +22,10 @@ export class UserService {
     return {id, data};
   }
 
-  async partial(id: number, data: UpdateUserDto) {
+  async partial(id: number, data: PartialUserDto) {
     return {id, data};
   }
+  
   async remove(id: number) {
     return id;
   }
