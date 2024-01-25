@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -23,8 +23,19 @@ export class AuthService {
             }
         });
         if (!user || ! await bcrypt.compare(password, user.password)) {
-            throw new BadRequestException("Incorrect email or password")
+            throw new UnauthorizedException("Incorrect email or password")
         }
         return this.security.createToken(user);
-    }
+    };
+
+    async forget(email: string){
+        const user = await this.prisma.user.findFirst({
+            where:{email}
+        });
+        if (!user) {
+            throw new UnauthorizedException("Incorrect email")
+        }
+        return this.security.forget(user);
+    };
+    
 }

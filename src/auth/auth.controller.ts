@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { LogInterceptador } from 'src/interceptadors/log-interceptador';
+import { AuthForgetDto } from './dto/auth-forget.dto';
 
 @UseInterceptors(LogInterceptador)
 @Controller('auth')
@@ -17,6 +18,11 @@ export class AuthController {
   @Post('login')
   async login(@Body(){email, password}: AuthLoginDto){
     return this.authService.login(email, password);
+  }
+
+  @Post('forget')
+  async forget(@Body(){email}: AuthForgetDto){
+    return this.authService.forget(email);
   }
   
 }
