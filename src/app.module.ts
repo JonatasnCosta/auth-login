@@ -1,9 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'; 
 import { UserModule } from './user/user.module';
 import { CheckIdMiddleware } from './middlewares/check-id.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module(
-{imports: [UserModule], 
+{imports: [UserModule, AuthModule], 
 controllers: [], 
 providers: [], 
 }) 
