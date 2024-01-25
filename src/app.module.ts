@@ -2,9 +2,11 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { UserModule } from './user/user.module';
 import { CheckIdMiddleware } from './middlewares/check-id.middleware';
 import { AuthModule } from './auth/auth.module';
+import { SecurityModule } from './security/security.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module(
-{imports: [UserModule, AuthModule], 
+{imports: [UserModule, AuthModule, SecurityModule, ConfigModule.forRoot()], 
 controllers: [], 
 providers: [], 
 }) 
