@@ -4,6 +4,7 @@ import { AuthRegisterDto } from './dto/auth-register.dto';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { LogInterceptador } from 'src/interceptadors/log-interceptador';
 import { AuthForgetDto } from './dto/auth-forget.dto';
+import { AuthResetDto } from './dto/auth-reset.dto';
 
 @UseInterceptors(LogInterceptador)
 @Controller('auth')
@@ -23,6 +24,11 @@ export class AuthController {
   @Post('forget')
   async forget(@Body(){email}: AuthForgetDto){
     return this.authService.forget(email);
+  }
+
+  @Post('reset')
+  async reset(@Body(){password, token}: AuthResetDto){
+    return this.authService.reset(password, token);
   }
   
 }

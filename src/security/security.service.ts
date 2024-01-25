@@ -1,13 +1,17 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class SecurityService {
     
     constructor(private readonly jwtService: JwtService,
-                private readonly mailer: MailerService) {}
+                private readonly mailer: MailerService,
+                private readonly prisma: PrismaService
+    ) {}
 
     createToken(user: User){
         return {
@@ -54,5 +58,31 @@ export class SecurityService {
      return {
       sucess: 'true'
      } 
+    };
+
+    async reset(password: string, token: string){
+      try {
+        const data:any = this.jwtService.verify(token,{
+            issuer: 'forget',
+            audience: 'users'
+        });
+        if (isNaN(Number(data.id))) {
+            throw new BadRequestException("Token inválido");
+       }
+       password = await bcrypt.hash(password, await bcrypt.genSalt());
+       const user = await this.prisma.user.update({
+        where:{
+            id: Number(data.id),
+        },
+        data:{
+            password
+        },
+       });
+       return this.createToken(user);
+    } catch (error) {
+        throw new BadRequestException(error)
+        
     }
+   };
+   
 }
