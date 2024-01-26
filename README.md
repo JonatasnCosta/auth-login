@@ -5,7 +5,7 @@ You can also use this API using Insominia or any other request framework.
 Try it now! Demonstration
 
 * Characteristics
-* log in
+* JWT 
 * Record
 * Login
 * Authentication
